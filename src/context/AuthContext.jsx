@@ -73,15 +73,43 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = {
-    user,
-    token,
-    loading,
-    login,
-    register,
-    logout,
-    isAuthenticated: !!token
-  };
+  // Add these functions to the AuthContext value
+
+const updateProfile = async (profileData) => {
+  try {
+    const response = await updateProfile(profileData);
+    setUser(prev => ({ ...prev, ...response.user }));
+    toast.success('Profile updated successfully');
+    return true;
+  } catch (error) {
+    toast.error(error.response?.data?.error || 'Failed to update profile');
+    return false;
+  }
+};
+
+const changePassword = async (currentPassword, newPassword) => {
+  try {
+    await changePassword(currentPassword, newPassword);
+    toast.success('Password changed successfully');
+    return true;
+  } catch (error) {
+    toast.error(error.response?.data?.error || 'Failed to change password');
+    return false;
+  }
+};
+
+// Add these to the context value
+const value = {
+  user,
+  token,
+  loading,
+  login,
+  register,
+  logout,
+  updateProfile,
+  changePassword,
+  isAuthenticated: !!token
+};
 
   return (
     <AuthContext.Provider value={value}>
