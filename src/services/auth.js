@@ -20,12 +20,17 @@ export const getCurrentUser = async () => {
   return response.user;
 };
 
+// Add this to src/services/auth.js
+
 export const updateProfile = async (profileData) => {
   const response = await api.patch('/users/profile', profileData);
   return response;
 };
 
-export const changePassword = async (passwordData) => {
-  const response = await api.post('/users/change-password', passwordData);
+export const changePassword = async (currentPassword, newPassword) => {
+  const response = await api.post('/users/change-password', {
+    currentPassword,
+    newPassword
+  });
   return response;
 };
